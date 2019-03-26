@@ -27,21 +27,46 @@ const Statistics = (state) => {
         }
 }
 
+const Button = (props) => {
+    
+    return (
+        <button onClick={props.handler}>{props.label}</button>
+    )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  //set good
+  const goodHandler = () => {
+    //setGood(good+1)
+    const newGood = good + 1
+    setGood(newGood)
+    }
+    const badHandler = () => {
+        //setGood(good+1)
+        const newBad = bad + 1
+        setBad(newBad)
+    }
+    const neutralHandler = () => {
+        //setGood(good+1)
+        const newNeutral = neutral + 1
+        setNeutral(newNeutral)
+    }
+
   console.log(bad)
   return (
     <div>
       <h1>Anna palautetta</h1>
-      <button onClick={()=>setGood(good+1)}>Good</button>
-      <button onClick={()=>setNeutral(neutral+1)}>Neutral</button>
-      <button onClick={()=>setBad(bad+1)}>Bad</button>
+      <Button handler={goodHandler} label="Good"/>
+      <Button handler={neutralHandler} label="Neutral"/>
+      <Button handler={badHandler} label="Bad"/>
     
       <Statistics bad={bad} good={good} neutral={neutral}/>
+      
       
     </div>
   )
