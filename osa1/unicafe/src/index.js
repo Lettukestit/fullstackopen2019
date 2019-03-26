@@ -5,9 +5,10 @@ const Statistics = (state) => {
     console.log(state)
     let yhteensa = state.good + state.bad + state.neutral
     let keskiarvo = state.good + (state.bad *-1) + (state.neutral*0)/yhteensa
-    return (
+    if(state.good || state.bad || state.neutral) {
+        return (
         <div>
-            <h3>Statistiikka</h3>
+        <h3>Statistiikka</h3>
         <p>Good: {state.good}</p>
         <p>Neutral: {state.neutral}</p>
         <p>Bad: {state.bad}</p>
@@ -16,6 +17,14 @@ const Statistics = (state) => {
         <p>Positiivisia: {state.good/yhteensa}</p>
         </div>
     )
+        } else {
+            return (
+                <div>
+                <h3>Ei tilastoja</h3>
+                <p>Ei yhtään palautetta annettu</p>
+                </div>
+            )
+        }
 }
 
 const App = () => {
