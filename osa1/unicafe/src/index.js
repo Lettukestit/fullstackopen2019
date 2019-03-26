@@ -1,34 +1,15 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Statistics = (state) => {
-    console.log(state)
-    let yhteensa = state.good + state.bad + state.neutral
-    let keskiarvo = state.good + (state.bad *-1) + (state.neutral*0)/yhteensa
-    if(state.good || state.bad || state.neutral) {
-        return (
+const Statistics = (props) => {  
+      return (
         <div>
-        <h3>Statistiikka</h3>
-        <p>Good: {state.good}</p>
-        <p>Neutral: {state.neutral}</p>
-        <p>Bad: {state.bad}</p>
-        <p>Yhteensä: {yhteensa}</p>
-        <p>Keskiarvo: { keskiarvo}</p>
-        <p>Positiivisia: {state.good/yhteensa}</p>
+        <p>{props.label}: {props.value}</p>
         </div>
     )
-        } else {
-            return (
-                <div>
-                <h3>Ei tilastoja</h3>
-                <p>Ei yhtään palautetta annettu</p>
-                </div>
-            )
-        }
 }
 
-const Button = (props) => {
-    
+const Button = (props) => {    
     return (
         <button onClick={props.handler}>{props.label}</button>
     )
@@ -40,34 +21,40 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const yhteensa = good + bad + neutral
+  const keskiarvo = good + (bad *-1) + (neutral*0)/yhteensa
+  const positiivisia = good/yhteensa
+
   //set good
-  const goodHandler = () => {
-    //setGood(good+1)
+   const goodHandler = () => {
     const newGood = good + 1
-    setGood(newGood)
+        setGood(newGood)
     }
     const badHandler = () => {
-        //setGood(good+1)
         const newBad = bad + 1
         setBad(newBad)
     }
     const neutralHandler = () => {
-        //setGood(good+1)
         const newNeutral = neutral + 1
         setNeutral(newNeutral)
     }
 
-  console.log(bad)
+
+
   return (
     <div>
       <h1>Anna palautetta</h1>
       <Button handler={goodHandler} label="Good"/>
       <Button handler={neutralHandler} label="Neutral"/>
       <Button handler={badHandler} label="Bad"/>
-    
-      <Statistics bad={bad} good={good} neutral={neutral}/>
-      
-      
+      <h3>Statistiikka</h3>
+      <Statistics value={bad} label="Bad"/>
+      <Statistics value={good} label="Good"/>
+      <Statistics value={neutral} label="Neutral"/>
+      <Statistics value={yhteensa} label="Yhteensä"/>
+      <Statistics value={keskiarvo} label="Keskiarvo"/>
+      <Statistics value={positiivisia} label="Positiivisia"/>
+
     </div>
   )
 }
