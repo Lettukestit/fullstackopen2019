@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {  
+    const val = props.value || ""
       return (
-        <div>
-        <p>{props.label}: {props.value}</p>
-        </div>
+        <tr>
+        <td>{props.label}</td><td>{val}</td>
+        </tr>
     )
 }
 
@@ -48,12 +49,16 @@ const App = () => {
       <Button handler={neutralHandler} label="Neutral"/>
       <Button handler={badHandler} label="Bad"/>
       <h3>Statistiikka</h3>
+      <table>
+          <tbody>
       <Statistics value={bad} label="Bad"/>
       <Statistics value={good} label="Good"/>
       <Statistics value={neutral} label="Neutral"/>
       <Statistics value={yhteensa} label="Yhteensä"/>
       <Statistics value={keskiarvo} label="Keskiarvo"/>
       <Statistics value={positiivisia} label="Positiivisia"/>
+      </tbody>
+      </table>
 
     </div>
   )
