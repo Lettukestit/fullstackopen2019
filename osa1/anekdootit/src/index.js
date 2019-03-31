@@ -1,6 +1,31 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Mostvoted = (props) => {
+    let winner = null;
+ 
+    console.log("Mostwanted votes: ", props.votes)
+    Object.keys(props.votes).forEach((item) => {
+        //console.log("anecdote " + item + " '"+ props.anecdotes[item].substr(0,10) + "' has " + props.votes[item] + " votes")
+        if(props.votes[item] > winner) {
+            //set winning anecdote
+            winner = item
+        }
+    })
+        if(winner == null) {
+            return (
+                <div>
+                    No votes yet
+                </div>
+            )
+        } else{
+            return (
+                <div>{props.anecdotes[winner]}</div>
+            )} 
+       
+    
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0})
@@ -9,14 +34,16 @@ const App = (props) => {
   const clickHandler = () => {
     const rand = Math.floor(Math.random() * anecdotes.length);
     setSelected(rand) 
-    console.log("clickhandler new selected after click", selected)
+    //console.log("clickhandler new selected after click", selected)
   }
 
   const voteHandler = () => {
-      console.log("voteHandler original val for "+ selected+":",votes[selected])
+      //console.log("voteHandler original val for "+ selected+":",votes[selected])
       const copy = {...votes, [selected]:votes[selected]+1}
       setVotes( copy)
   }
+
+  
 
   return (
     <div>
@@ -24,6 +51,10 @@ const App = (props) => {
       <p><button onClick={clickHandler}>Next anecdote</button></p>
       <p><button onClick={voteHandler}>Vote for this anecdote</button>
         </p>
+        <div>
+            <h3>Anecdote with most votes</h3>
+            <Mostvoted votes={votes} anecdotes={anecdotes}/>
+        </div>
     </div>
   )
 }
