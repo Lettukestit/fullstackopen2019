@@ -18,9 +18,21 @@ const App = () => {
 
   const addEntry = (event) => {
     event.preventDefault()
-    let copy = [...persons, {name:newName}] 
-    console.log("copy:",copy)
-    setPersons(copy)
+    //tarkista onko tämä nimi jo listassa
+    let exists = false;
+    persons.forEach((item) => {
+      if(item.name === newName) {
+        exists = true
+      }
+    })
+    if(exists) {
+      alert(`${newName} on jo luettelossa`)
+    } else {
+      let copy = [...persons, {name:newName}] 
+      console.log("copy:",copy)
+      setPersons(copy)
+    }
+    
     console.log("persons:",persons)
   }
 
