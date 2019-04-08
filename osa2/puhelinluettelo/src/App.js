@@ -4,7 +4,7 @@ const Numerot = ({persons}) => {
   console.log("printing ", persons)
   return (
         persons.map((element) => (
-          <li key={element.name}>{element.name}</li>
+          <li key={element.name}>{element.name} puh. {element.number}</li>
         )
       )
   )
@@ -12,9 +12,10 @@ const Numerot = ({persons}) => {
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: "040-12345678" }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber] = useState('')
 
   const addEntry = (event) => {
     event.preventDefault()
@@ -28,7 +29,7 @@ const App = () => {
     if(exists) {
       alert(`${newName} on jo luettelossa`)
     } else {
-      let copy = [...persons, {name:newName}] 
+      let copy = [...persons, {name:newName, number:newNumber}] 
       console.log("copy:",copy)
       setPersons(copy)
     }
@@ -40,13 +41,18 @@ const App = () => {
     console.log("handleNameChange event target value:",event.target.value)
     setNewName(event.target.value)
   }
+  const handleNumberChange = (event)=> {
+    console.log("handleNameChange event target value:",event.target.value)
+    setNewNumber(event.target.value)
+  }
 
   return (
     <div>
       <h2>Puhelinluettelo</h2>
       <form onSubmit={addEntry}>
         <div>
-          nimi: <input value={newName} onChange={handleNameChange}/>
+          nimi: <input value={newName} onChange={handleNameChange}/> <br/>
+          numero: <input value={newNumber} onChange={handleNumberChange}/>
         </div>
         <div>
           <button type="submit">lisää</button>
