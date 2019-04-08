@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
+import Filter from "./components/Filter"
+import PersonForm from "./components/PersonForm"
+import Numerot from "./components/Numerot"
 
-const Numerot = ({persons}) => {
-  console.log("printing ", persons)
-  return (
-        persons.map((element) => (
-          <li key={element.name}>{element.name} puh. {element.number}</li>
-        )
-      )
-  )
-}
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -47,8 +41,7 @@ const App = () => {
   const handleNumberChange = (event)=> {
     setNewNumber(event.target.value)
   }
-  const search = (event) => {
-    
+  const search = (event) => {    
     let copy = persons.filter((item) => {
       //compare in upper case = case insensitive
        return  item.name.toUpperCase().indexOf (event.target.value.toUpperCase()) > -1
@@ -59,20 +52,15 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      <label>Haku
-      <input onChange={search}/>
-      </label>
+     <Filter onChange={search} />
       <h3>Lisää numero</h3>
-      <form onSubmit={addEntry}>
-        <div>
-          nimi: <input value={newName} onChange={handleNameChange}/> <br/>
-          numero: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">lisää</button>
-        </div>
-      </form>
-      <h2>Numerot</h2>
+      <PersonForm 
+        addEntry={addEntry} 
+        numberOnChange={handleNumberChange} 
+        nameOnChange={handleNameChange}
+        newName={newName} 
+        newNumber={newNumber}/>
+      <h3>Numerot</h3>
       <ul>
       <Numerot persons={persons}/>
       </ul>
