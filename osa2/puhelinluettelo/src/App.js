@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect  } from 'react'
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Numerot from "./components/Numerot"
+import axios from 'axios'
 
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: "040-12345678" },
-    { name: 'Anna Pakkala', number: "040-123454568" },
-    { name: 'Risto Reipas', number: "040-12225678" },
-    { name: 'Ville Valo', number: "040-123453338" }
-  ]) 
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons').then(response => {
+      const persons = response.data
+      console.log(persons)
+      setPersons(persons)
+    })
+  }, [])
+
+  const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
 
