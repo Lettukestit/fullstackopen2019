@@ -1,7 +1,8 @@
 import React from 'react'
 import Country from './Country'
 
-const Countries = ({countries}) => {
+
+const Countries = ({countries, handler}) => {
 
   if(countries.length === 1) {
     return (
@@ -11,7 +12,8 @@ const Countries = ({countries}) => {
    if (countries.length < 10 && countries.length > 1) { 
       return (
         countries.map((element) => (
-          <li key={element.name}>{element.name}</li>
+          <li key={element.name}>{element.name} 
+          <button onClick={handler.bind(this, element.name)}>view country</button></li>
           )
       )
     ) 

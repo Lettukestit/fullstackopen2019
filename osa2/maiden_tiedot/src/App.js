@@ -8,7 +8,15 @@ const App = () => {
  
 
   const [ countries, setCountries] = useState([]) 
-  
+
+  const viewCountry = (c) => {
+    console.log("clicked",c)
+    axios.get('https://restcountries.eu/rest/v2/name/'+c).then(response => {
+      const countries = response.data
+        setCountries(countries)      
+    })
+  }
+
   const search = (event) => { 
     //console.log(event.target.value)   
     axios.get('https://restcountries.eu/rest/v2/name/'+event.target.value).then(response => {
@@ -28,7 +36,7 @@ const App = () => {
      <Filter onChange={search} />
     
       <ul>
-      <Countries countries={countries}/>
+      <Countries countries={countries} handler={viewCountry}/>
       </ul>
     </div>
   )
