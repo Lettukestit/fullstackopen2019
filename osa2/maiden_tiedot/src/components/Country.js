@@ -11,7 +11,7 @@ return (
    <h3>languages</h3>
     <ul>
       {lang.map(element => (
-           <li key={element.alpha3Code}>{element.name}</li>
+           <li key={element.iso639_1}>{element.name}</li>
        ))}
     </ul>
     <img src={country.flag} width="20%" height="20%" alt={country.name}/>
