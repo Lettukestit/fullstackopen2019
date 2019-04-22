@@ -1,15 +1,9 @@
 import React from 'react'
 import Country from './Country'
 
-
 const Countries = ({countries, handler}) => {
 
-  if(countries.length === 1) {
-    return (
-        <Country country={countries[0]}/>
-    )
-  } 
-   if (countries.length < 10 && countries.length > 1) { 
+   if (countries.length < 11 && countries.length > 1) { 
       return (
         countries.map((element) => (
           <li key={element.name}>{element.name} 
@@ -17,9 +11,17 @@ const Countries = ({countries, handler}) => {
           )
       )
     ) 
-  } else {
+  } else if(countries.length > 10) {
     return (
       <div>Hakutuloksia on liikaa</div>
+    )
+  } else if(countries.length === 1) {
+    return(
+      <Country country={countries[0]}/>
+    )
+  } else {
+    return (
+      <div></div>
     )
   }
 }
