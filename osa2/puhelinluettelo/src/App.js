@@ -32,8 +32,16 @@ const App = () => {
     if(exists) {
       alert(`${newName} on jo luettelossa`)
     } else {
+      let person = {name:newName, number:newNumber}
       let copy = [...persons, {name:newName, number:newNumber}] 
       setPersons(copy)
+
+      axios
+        .post('http://localhost:3001/persons', person)
+        .then(response => {
+          console.log("added new person", response.data)
+    })
+
     }
     
     console.log("persons:",persons)
