@@ -11,7 +11,8 @@ const App = () => {
     personService
     .getAll()
     .then(response => {
-      setPersons(response.data)
+      console.log("effect", response)
+      setPersons(response)
     })
   }, [])
 
@@ -34,10 +35,12 @@ const App = () => {
       alert(`${newName} on jo luettelossa`)
     } else {
       let person = {name:newName, number:newNumber}
-      let copy = [...persons, {name:newName, number:newNumber}] 
-      setPersons(copy)
-
-      personService.create(person)
+      //let copy = [...persons, {name:newName, number:newNumber}] 
+      //setPersons(copy)
+      personService.create(person).then(response=> {
+       setPersons(persons.concat(response))
+      }
+      )
     }
     
     console.log("persons:",persons)
@@ -49,6 +52,20 @@ const App = () => {
   const handleNumberChange = (event)=> {
     setNewNumber(event.target.value)
   }
+
+  const handleDelete = (id)=> {
+   if( window.confirm("oletko varma?") ) {
+      personService.remove(id).then(response => {
+        //response will be empty
+        const copy = persons.filter((item) => {
+          //remove the deleted user from list
+          return item.id !== id
+        })
+        setPersons(copy)
+      })
+    }
+  }
+
   const search = (event) => {    
     let copy = persons.filter((item) => {
       //compare in upper case = case insensitive
@@ -70,7 +87,7 @@ const App = () => {
         newNumber={newNumber}/>
       <h3>Numerot</h3>
       <ul>
-      <Numerot persons={persons}/>
+      <Numerot persons={persons} handler={handleDelete}/>
       </ul>
     </div>
   )
