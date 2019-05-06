@@ -2,8 +2,10 @@ import React, { useState, useEffect  } from 'react'
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Numerot from "./components/Numerot"
+import Notification from "./components/Notification"
 import axios from 'axios'
 import personService from './services/persons'
+import './index.css'
 
 
 const App = () => {
@@ -19,6 +21,7 @@ const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
+  const [ message, setMessage] = useState('')
 
   const addEntry = (event) => {
     event.preventDefault()
@@ -42,6 +45,7 @@ const App = () => {
             //remove the deleted user from list
             return item.id !== id
           }).concat(response))
+          setMessage(`muokattu käyttäjä ${newName}`)
         }
       )
  
@@ -51,6 +55,7 @@ const App = () => {
     let person = {name:newName, number:newNumber}
       personService.create(person).then(response=> {
           setPersons(persons.concat(response))
+          setMessage(`lisätty käyttäjä ${newName}`)
         }
       )
   }
@@ -64,14 +69,20 @@ const App = () => {
   }
 
   const handleDelete = (id)=> {
+     //response will be empty, find removed object
+     const removed_user = persons.find(item => item.id===id)
+
    if( window.confirm("oletko varma?") ) {
       personService.remove(id).then(response => {
-        //response will be empty
+             
         const copy = persons.filter((item) => {
           //remove the deleted user from list
           return item.id !== id
         })
         setPersons(copy)
+        setMessage(`poistettu käyttäjä ${removed_user.name}`)
+      }).catch(error => {
+        setMessage(`Käyttäjä ${removed_user.name} on jo poistettu`)
       })
     }
   }
@@ -87,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <Notification message={message}/>
      <Filter onChange={search} />
       <h3>Lisää numero</h3>
       <PersonForm 
