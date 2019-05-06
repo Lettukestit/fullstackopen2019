@@ -25,26 +25,36 @@ const App = () => {
 
     //tarkista onko tämä nimi jo listassa
     let exists = false;
+    let id = null;
     persons.forEach((item) => {
       if(item.name === newName) {
         exists = true
+        id = item.id
       }
     })
 
     if(exists) {
-      alert(`${newName} on jo luettelossa`)
-    } else {
-      let person = {name:newName, number:newNumber}
-      //let copy = [...persons, {name:newName, number:newNumber}] 
-      //setPersons(copy)
-      personService.create(person).then(response=> {
-       setPersons(persons.concat(response))
-      }
-      )
-    }
+     if( window.confirm(`${newName} on jo luettelossa, korvataanko numero?`)) {
     
+      let person = {name:newName, number:newNumber}
+      personService.update(id, person).then(response=> {
+          setPersons(persons.filter((item) => {
+            //remove the deleted user from list
+            return item.id !== id
+          }).concat(response))
+        }
+      )
+ 
+     }
     console.log("persons:",persons)
+  } else {
+    let person = {name:newName, number:newNumber}
+      personService.create(person).then(response=> {
+          setPersons(persons.concat(response))
+        }
+      )
   }
+}
 
   const handleNameChange = (event)=> {
     setNewName(event.target.value)
