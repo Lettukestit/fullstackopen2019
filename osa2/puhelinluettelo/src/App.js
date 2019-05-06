@@ -3,14 +3,15 @@ import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Numerot from "./components/Numerot"
 import axios from 'axios'
+import personService from './services/persons'
 
 
 const App = () => {
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then(response => {
-      const persons = response.data
-      console.log(persons)
-      setPersons(persons)
+    personService
+    .getAll()
+    .then(response => {
+      setPersons(response.data)
     })
   }, [])
 
@@ -36,12 +37,7 @@ const App = () => {
       let copy = [...persons, {name:newName, number:newNumber}] 
       setPersons(copy)
 
-      axios
-        .post('http://localhost:3001/persons', person)
-        .then(response => {
-          console.log("added new person", response.data)
-    })
-
+      personService.create(person)
     }
     
     console.log("persons:",persons)
