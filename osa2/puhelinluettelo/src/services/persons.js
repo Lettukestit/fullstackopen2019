@@ -1,11 +1,13 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:3001/api/persons'
 
 const getAll = () => {
   const r =  axios.get(baseUrl)
-  return r.then(
-      response => response.data
+  const ret = r.then(
+    //node backend returns data in different format
+      response => response.data[0].persons
   )
+  return ret
 }
 
 const create = newObject => {
