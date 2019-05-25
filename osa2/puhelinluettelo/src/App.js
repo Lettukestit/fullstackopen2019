@@ -16,7 +16,7 @@ const App = () => {
       console.log("effect", response)
       setPersons(response)
     })
-  }, [])
+  })
 
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
